@@ -51,7 +51,7 @@ public class ScoringDataDTO {
 
     @Override
     public String toString() {
-        return "Amount: " + amount + ", Term: " + term + "First name: " + firstName + ", Last name: " + lastName + ", Middle name: " + middleName + ", Gender: " + gender + ", Birthdate: " + birthdate +
+        return "Amount: " + amount + ", Term: " + term + ", First name: " + firstName + ", Last name: " + lastName + ", Middle name: " + middleName + ", Gender: " + gender + ", Birthdate: " + birthdate +
                 ", Passport series: " + passportSeries + ", Passport number: " + passportNumber + ", Passport issue date: " + passportIssueDate + ", Passport issue branch: " +
                 passportIssueBranch + ", Marital status: " + maritalStatus + ", Dependent amount: " + dependentAmount + ", Employment: " + employment + ", Account: " + account +
                 ", Is insurance enabled: " + isInsuranceEnabled + ", Is salary client: " + isSalaryClient;

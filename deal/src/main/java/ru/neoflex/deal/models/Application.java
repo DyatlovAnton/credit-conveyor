@@ -26,7 +26,7 @@ public class Application {
 
     @OneToOne
     @JoinColumn(name = "credit_id", referencedColumnName = "id")
-    private Credit credit;
+    private CreditDTO credit;
 
     @Column(name="application_status")
     private ApplicationStatus applicationStatus;
@@ -51,7 +51,7 @@ public class Application {
     public static class Builder{
         private Long id = null;
         private Client client = null;
-        private Credit credit = null;
+        private CreditDTO credit = null;
         private ApplicationStatus applicationStatus = null;
         private LocalDate creationDate = null;
         private LoanOfferDTO appliedOffer = null;
@@ -64,7 +64,7 @@ public class Application {
             this.client = client;
             return this;
         }
-        public Builder credit(Credit credit){
+        public Builder credit(CreditDTO credit){
             this.credit = credit;
             return this;
         }

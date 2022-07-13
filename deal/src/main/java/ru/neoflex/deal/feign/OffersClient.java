@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.neoflex.deal.embeddables.LoanOfferDTO;
 import ru.neoflex.deal.input.LoanApplicationRequestDTO;
-import ru.neoflex.deal.models.Credit;
+import ru.neoflex.deal.models.CreditDTO;
 import ru.neoflex.deal.models.ScoringDataDTO;
 
 import java.util.List;
@@ -16,5 +16,5 @@ public interface OffersClient {
     List<LoanOfferDTO> getOffers(LoanApplicationRequestDTO data);
 
     @RequestMapping(method = RequestMethod.POST, value = "/calculation", consumes = "application/json")
-    Credit scoreCredit(ScoringDataDTO data);
+    CreditDTO scoreCredit(ScoringDataDTO data);
 }

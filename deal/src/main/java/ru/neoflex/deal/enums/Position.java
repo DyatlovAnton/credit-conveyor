@@ -1,10 +1,15 @@
 package ru.neoflex.deal.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Position {
     WORKER("worker"), MID_MANAGER("mid manager"), TOP_MANAGER("top manager"), OWNER("owner");
     private final String string;
+    @JsonValue
+    public String getString(){
+        return string;
+    }
     Position(String string){
         this.string = string;
     }

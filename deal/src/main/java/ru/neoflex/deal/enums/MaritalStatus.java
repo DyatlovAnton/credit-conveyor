@@ -1,10 +1,15 @@
 package ru.neoflex.deal.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum MaritalStatus {
     MARRIED("married"), DIVORCED("divorced"), SINGLE("single"), WIDOW_WIDOWER("widow_widower");
     private final String string;
+    @JsonValue
+    public String getString(){
+        return string;
+    }
     MaritalStatus(String string){
         this.string = string;
     }

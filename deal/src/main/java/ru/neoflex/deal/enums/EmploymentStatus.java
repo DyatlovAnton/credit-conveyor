@@ -1,10 +1,15 @@
 package ru.neoflex.deal.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum EmploymentStatus {
     UNEMPLOYED("unemployed"), SELF_EMPLOYED("self_employed"), EMPLOYED("employed"), BUSINESS_OWNER("business owner");
     private final String string;
+    @JsonValue
+    public String getString(){
+        return string;
+    }
     EmploymentStatus(String string){
         this.string = string;
     }

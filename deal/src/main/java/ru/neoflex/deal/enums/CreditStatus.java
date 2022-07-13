@@ -1,10 +1,15 @@
 package ru.neoflex.deal.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum CreditStatus {
     CALCULATED("calculated"), ISSUED("issued");
     private final String string;
+    @JsonValue
+    public String getString(){
+        return string;
+    }
     CreditStatus(String string){
         this.string = string;
     }

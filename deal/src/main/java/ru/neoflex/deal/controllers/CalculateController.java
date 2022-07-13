@@ -1,34 +1,35 @@
 package ru.neoflex.deal.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ru.neoflex.deal.embeddables.EmploymentDTO;
-import ru.neoflex.deal.embeddables.LoanOfferDTO;
 import ru.neoflex.deal.enums.Gender;
 import ru.neoflex.deal.enums.MaritalStatus;
 import ru.neoflex.deal.feign.OffersClient;
 import ru.neoflex.deal.models.Application;
-import ru.neoflex.deal.models.Credit;
+import ru.neoflex.deal.models.CreditDTO;
 import ru.neoflex.deal.models.FinishRegistrationRequestDTO;
 import ru.neoflex.deal.models.ScoringDataDTO;
 import ru.neoflex.deal.repositories.ApplicationRepository;
+import ru.neoflex.deal.repositories.CreditRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@RestController
 public class CalculateController {
 
     private final ApplicationRepository applicationRepository;
 
     private final OffersClient offersClient;
 
+    private final CreditRepository creditRepository;
+
     @Autowired
-    public CalculateController(ApplicationRepository applicationRepository, OffersClient offersClient){
+    public CalculateController(ApplicationRepository applicationRepository, OffersClient offersClient, CreditRepository creditRepository){
         this.applicationRepository = applicationRepository;
         this.offersClient = offersClient;
+        this.creditRepository = creditRepository;
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/deal/calculate/{applicationId}", consumes = "application/json")
@@ -53,7 +54,6 @@ public class CalculateController {
                 .term(application.getAppliedOffer().getTerm())
                 .amount(application.getAppliedOffer().getRequestedAmount())
                 .build();
-        Credit credit = offersClient.scoreCredit(scoringData);
-        System.out.println(credit.getId());
+        CreditDTO credit = offersClient.scoreCredit(scoringData);
     }
 }

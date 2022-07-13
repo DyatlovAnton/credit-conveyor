@@ -1,10 +1,15 @@
 package ru.neoflex.deal.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Gender {
     MALE("male"), FEMALE("female"), NON_BINARY("non binary");
     private final String string;
+    @JsonValue
+    public String getString(){
+        return string;
+    }
     Gender(String string){
         this.string = string;
     }

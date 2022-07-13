@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "credits")
-public class Credit {
+public class CreditDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -90,12 +90,12 @@ public class Credit {
             this.creditStatus = creditStatus;
             return this;
         }
-        public Credit build(){
-            return new Credit(this);
+        public CreditDTO build(){
+            return new CreditDTO(this);
         }
     }
-    public Credit(){}
-    private Credit(Builder builder){
+    public CreditDTO(){}
+    private CreditDTO(Builder builder){
         this.amount = builder.amount;
         this.term = builder.term;
         this.monthlyPayment = builder.monthlyPayment;

@@ -29,7 +29,8 @@ public class CalculationService {
         switch (employmentStatus) {
             case UNEMPLOYED:
                 log.info("API /conveyor/calculation: Безработный. Скоринг не пройден");
-                return null;
+                rate = null;
+                break;
             case SELF_EMPLOYED:
                 rate = rate.add(BigDecimal.valueOf(0.001));
                 log.info("API /conveyor/calculation: Самоанятый. Ставка увеличина на 0.1%");
@@ -42,7 +43,11 @@ public class CalculationService {
                 break;
             default:
                 log.error("API /conveyor/calculation: Неверные входные данные в поле employment.employmentStatus");
-                return null;
+                rate = null;
+                break;
+        }
+        if(rate==null){
+            return null;
         }
         if(!Optional.of(data.getEmployment().getPosition()).isPresent()){
             log.error("API /conveyor/calculation: Неверные входные данные в поле employment.position");
@@ -63,7 +68,11 @@ public class CalculationService {
                 break;
             default:
                 log.error("API /conveyor/calculation: Неверные входные данные в поле employment.position");
-                return null;
+                rate = null;
+                break;
+        }
+        if(rate==null){
+            return null;
         }
         try{
             if (data.getAmount().compareTo(data.getEmployment().getSalary().multiply(BigDecimal.valueOf(20))) > 0) {
@@ -94,7 +103,11 @@ public class CalculationService {
                 break;
             default:
                 log.error("API /conveyor/calculation: Неверные входные данные в поле maritalStatus");
-                return null;
+                rate = null;
+                break;
+        }
+        if(rate == null){
+            return null;
         }
         try{
             if (data.getDependentAmount() > 1) {
@@ -141,7 +154,11 @@ public class CalculationService {
                 break;
             default:
                 log.error("API /conveyor/calculation: Неверные входные данные в поле gender");
-                return null;
+                rate = null;
+                break;
+        }
+        if(rate == null){
+            return null;
         }
         try{
             if (data.getEmployment().getWorkExperienceTotal() < 12 && data.getEmployment().getWorkExperienceCurrent() < 3) {

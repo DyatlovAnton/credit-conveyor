@@ -3,6 +3,7 @@ package ru.neoflex.conveyor.tests;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
+import ru.neoflex.conveyor.mappings.CreditDTOMapper;
 import ru.neoflex.conveyor.models.*;
 import ru.neoflex.conveyor.services.CalculationService;
 
@@ -18,6 +19,7 @@ class CalculationServiceTest {
     RoundingMode rm = RoundingMode.HALF_UP;
 
     private static final CalculationService calculationService = new CalculationService();
+    private static final CreditDTOMapper CREDIT_DTO_MAPPER = new CreditDTOMapper();
     ScoringDataDTO data = new ScoringDataDTO(BigDecimal.valueOf(100000), 6, "Николай", "Николаев", "Николаевич", Gender.MALE, LocalDate.of(1970, 5, 5), "4515", "123456", LocalDate.of(2020, 2, 2), "МФЦ района Советский", MaritalStatus.SINGLE, 0, new EmploymentDTO(EmploymentStatus.EMPLOYED, "7889456321", BigDecimal.valueOf(50000), Position.WORKER, 50, 15), "nnikolaev@neoflex.ru", true, true);
 
     @BeforeAll
@@ -54,6 +56,6 @@ class CalculationServiceTest {
                         new PaymentScheduleElement(5, LocalDate.now().plusMonths(5), BigDecimal.valueOf(17200.52), BigDecimal.valueOf(308.27), BigDecimal.valueOf(16892.25), BigDecimal.valueOf(17045.69)),
                         new PaymentScheduleElement(6, LocalDate.now().plusMonths(6), BigDecimal.valueOf(17200.52), BigDecimal.valueOf(154.83), BigDecimal.valueOf(17045.69), BigDecimal.valueOf(0).setScale(2, rm))
                 ));
-        assertEquals(creditDTO, calculationService.scoreCreditDTO(data, calculationService.score(data)));
+        assertEquals(creditDTO, CREDIT_DTO_MAPPER.scoringDataDTOtoCreditDTOMapping(data, calculationService.score(data)));
     }
 }

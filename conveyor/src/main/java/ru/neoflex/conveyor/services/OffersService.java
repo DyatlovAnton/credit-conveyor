@@ -18,7 +18,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 @Slf4j
 public class OffersService {
-
     @Value(value = "${rate}")
     private BigDecimal baseRate;
 
@@ -46,64 +45,31 @@ public class OffersService {
     }
 
     public List<LoanOfferDTO> getLoanOfferList(LoanApplicationRequestDTO data) {
+
         List<LoanOfferDTO> list = new ArrayList<>();
-        long id = count.getAndIncrement();
-        BigDecimal requestedAmount = data.getAmount();
-        Integer term = data.getTerm();
-        BigDecimal rate = baseRate.subtract(BigDecimal.valueOf(0.04));
-        BigDecimal monthRate = rate.divide(BigDecimal.valueOf(12), mc);
-        BigDecimal monthRatePlusOne = monthRate.add(BigDecimal.valueOf(1));
-        BigDecimal monthRatePlusOnePowTerm = monthRatePlusOne.pow(term);
-        BigDecimal annuitetTopPart = monthRate.multiply(monthRatePlusOnePowTerm);
-        BigDecimal annuitetBottomPart = monthRatePlusOnePowTerm.subtract(BigDecimal.valueOf(1));
-        BigDecimal annuitetK = annuitetTopPart.divide(annuitetBottomPart, mc);
-        BigDecimal monthlyPayment = requestedAmount.multiply(annuitetK);
-        BigDecimal totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(term)).add(requestedAmount.multiply(insurance));
-        LoanOfferDTO loanOfferDTO = new LoanOfferDTO(id, requestedAmount, totalAmount.setScale(2, rm), term, monthlyPayment.setScale(2, rm), rate, true, true);
-        log.info("API /conveyor/offers: Первое предложение: " + loanOfferDTO);
-        list.add(loanOfferDTO);
+        Double[] rateSubtract = {0.04, 0.03, 0.01, 0.0};
+        boolean[][] insAndClient = {{true, true}, {true, false}, {false, true}, {false, false}};
 
-        id = count.getAndIncrement();
-        rate = baseRate.subtract(BigDecimal.valueOf(0.03));
-        monthRate = rate.divide(BigDecimal.valueOf(12), mc);
-        monthRatePlusOne = monthRate.add(BigDecimal.valueOf(1));
-        monthRatePlusOnePowTerm = monthRatePlusOne.pow(term);
-        annuitetTopPart = monthRate.multiply(monthRatePlusOnePowTerm);
-        annuitetBottomPart = monthRatePlusOnePowTerm.subtract(BigDecimal.valueOf(1));
-        annuitetK = annuitetTopPart.divide(annuitetBottomPart, mc);
-        monthlyPayment = requestedAmount.multiply(annuitetK);
-        totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(term)).add(requestedAmount.multiply(insurance));
-        loanOfferDTO = new LoanOfferDTO(id, requestedAmount, totalAmount.setScale(2, rm), term, monthlyPayment.setScale(2, rm), rate, true, false);
-        log.info("API /conveyor/offers: Второе предложение: " + loanOfferDTO);
-        list.add(loanOfferDTO);
-
-        id = count.getAndIncrement();
-        rate = baseRate.subtract(BigDecimal.valueOf(0.01));
-        monthRate = rate.divide(BigDecimal.valueOf(12), mc);
-        monthRatePlusOne = monthRate.add(BigDecimal.valueOf(1));
-        monthRatePlusOnePowTerm = monthRatePlusOne.pow(term);
-        annuitetTopPart = monthRate.multiply(monthRatePlusOnePowTerm);
-        annuitetBottomPart = monthRatePlusOnePowTerm.subtract(BigDecimal.valueOf(1));
-        annuitetK = annuitetTopPart.divide(annuitetBottomPart, mc);
-        monthlyPayment = requestedAmount.multiply(annuitetK);
-        totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(term));
-        loanOfferDTO = new LoanOfferDTO(id, requestedAmount, totalAmount.setScale(2, rm), term, monthlyPayment.setScale(2, rm), rate, false, true);
-        log.info("API /conveyor/offers: Третье предложение: " + loanOfferDTO);
-        list.add(loanOfferDTO);
-
-        id = count.getAndIncrement();
-        rate = baseRate;
-        monthRate = rate.divide(BigDecimal.valueOf(12), mc);
-        monthRatePlusOne = monthRate.add(BigDecimal.valueOf(1));
-        monthRatePlusOnePowTerm = monthRatePlusOne.pow(term);
-        annuitetTopPart = monthRate.multiply(monthRatePlusOnePowTerm);
-        annuitetBottomPart = monthRatePlusOnePowTerm.subtract(BigDecimal.valueOf(1));
-        annuitetK = annuitetTopPart.divide(annuitetBottomPart, mc);
-        monthlyPayment = requestedAmount.multiply(annuitetK);
-        totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(term));
-        loanOfferDTO = new LoanOfferDTO(id, requestedAmount, totalAmount.setScale(2, rm), term, monthlyPayment.setScale(2, rm), rate, false, false);
-        log.info("API /conveyor/offers: Четвёртое предложение: " + loanOfferDTO);
-        list.add(loanOfferDTO);
+        for (int i = 0; i < 4; i++) {
+            BigDecimal rate = baseRate.subtract(BigDecimal.valueOf(rateSubtract[i]));
+            BigDecimal monthRate = rate.divide(BigDecimal.valueOf(12), mc);
+            long id = count.getAndIncrement();
+            BigDecimal requestedAmount = data.getAmount();
+            Integer term = data.getTerm();
+            BigDecimal monthRatePlusOne = monthRate.add(BigDecimal.valueOf(1));
+            BigDecimal monthRatePlusOnePowTerm = monthRatePlusOne.pow(term);
+            BigDecimal annuitetTopPart = monthRate.multiply(monthRatePlusOnePowTerm);
+            BigDecimal annuitetBottomPart = monthRatePlusOnePowTerm.subtract(BigDecimal.valueOf(1));
+            BigDecimal annuitetK = annuitetTopPart.divide(annuitetBottomPart, mc);
+            BigDecimal monthlyPayment = requestedAmount.multiply(annuitetK);
+            BigDecimal totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(term));
+            if (i < 2) {
+                totalAmount = totalAmount.add(requestedAmount.multiply(insurance));
+            }
+            LoanOfferDTO loanOfferDTO = new LoanOfferDTO(id, requestedAmount, totalAmount.setScale(2, rm), term, monthlyPayment.setScale(2, rm), rate, insAndClient[i][0], insAndClient[i][1]);
+            log.info("API /conveyor/offers: " + i + "е предложение: " + loanOfferDTO);
+            list.add(loanOfferDTO);
+        }
         return list;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import ru.neoflex.conveyor.controllers.CalculationController;
 import ru.neoflex.conveyor.controllers.OffersController;
+import ru.neoflex.conveyor.mappings.CreditDTOMapper;
 import ru.neoflex.conveyor.models.*;
 import ru.neoflex.conveyor.services.CalculationService;
 import ru.neoflex.conveyor.services.OffersService;
@@ -23,6 +24,7 @@ class ControllersTest {
 
     private static final OffersService offersService = new OffersService();
     private static final CalculationService calculationService = new CalculationService();
+    private static final CreditDTOMapper CREDIT_DTO_MAPPER = new CreditDTOMapper();
     private static final OffersController offersController = new OffersController(offersService);
     private  static final CalculationController  calculationController = new CalculationController( calculationService);
     private final LoanApplicationRequestDTO data = new LoanApplicationRequestDTO(BigDecimal.valueOf(100000), 36, "Николай", "Николаев", "Николаевич", "nnikolaev@neoflex.ru", LocalDate.of(1970, 5, 5), "4515", "123456");
@@ -52,7 +54,8 @@ class ControllersTest {
 
     @Test
     void getCredit() {
-        assertEquals(calculationController.getCredit(scoringData), ResponseEntity.ok(calculationService.scoreCreditDTO(scoringData, calculationService.score(scoringData))));
+        assertEquals(calculationController.getCredit(scoringData), ResponseEntity.ok(CREDIT_DTO_MAPPER.scoringDataDTOtoCreditDTOMapping(scoringData, calculationService.score(scoringData))));
+        assertEquals(calculationController.getCredit(scoringData), ResponseEntity.ok(CREDIT_DTO_MAPPER.scoringDataDTOtoCreditDTOMapping(scoringData, calculationService.score(scoringData))));
         assertEquals(calculationController.getCredit(scoringData1), ResponseEntity.ok("Скоринг не пройден"));
     }
 }

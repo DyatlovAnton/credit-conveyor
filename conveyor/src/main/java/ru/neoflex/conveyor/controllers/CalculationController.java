@@ -1,6 +1,7 @@
 package ru.neoflex.conveyor.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import ru.neoflex.conveyor.mappings.CreditDTOMapper;
 import ru.neoflex.conveyor.models.*;
 
 import java.math.BigDecimal;
@@ -12,8 +13,8 @@ import ru.neoflex.conveyor.services.CalculationService;
 @RestController
 @Slf4j
 public class CalculationController {
-
     private final CalculationService calculationService;
+    private final CreditDTOMapper creditDTOMapper = new CreditDTOMapper();
 
     public CalculationController(CalculationService calculationService) {
         this.calculationService = calculationService;
@@ -25,9 +26,9 @@ public class CalculationController {
         BigDecimal rate = calculationService.score(data);
         if (rate != null) {
             log.info("API /conveyor/offers: Скоринг успешно пройден");
-            return ResponseEntity.ok(calculationService.scoreCreditDTO(data, rate));
+            return ResponseEntity.ok(creditDTOMapper.scoringDataDTOtoCreditDTOMapping(data, rate));
         } else {
-            log.info("API /conveyor/offers: Скоринг не пройден");
+            log.error("API /conveyor/offers: Скоринг не пройден");
             return ResponseEntity.ok("Скоринг не пройден");
         }
     }

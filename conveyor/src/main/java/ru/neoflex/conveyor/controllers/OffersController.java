@@ -10,7 +10,6 @@ import ru.neoflex.conveyor.services.OffersService;
 @RestController
 @Slf4j
 public class OffersController {
-
     private final OffersService offersService;
 
     public OffersController(OffersService offersService) {
@@ -24,7 +23,7 @@ public class OffersController {
             log.info("API /conveyor/offers: Прескоринг пройден успешно");
             return ResponseEntity.ok(offersService.getLoanOfferList(data));
         } else {
-            log.info("API /conveyor/offers: Прескоринг не пройден");
+            log.error("API /conveyor/offers: Прескоринг не пройден");
             return ResponseEntity.ok("Прескоринг не пройден");
         }
     }

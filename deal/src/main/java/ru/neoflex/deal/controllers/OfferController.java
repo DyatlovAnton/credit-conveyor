@@ -11,7 +11,6 @@ import ru.neoflex.deal.enums.ApplicationStatus;
 import ru.neoflex.deal.models.Application;
 import ru.neoflex.deal.repositories.ApplicationRepository;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 

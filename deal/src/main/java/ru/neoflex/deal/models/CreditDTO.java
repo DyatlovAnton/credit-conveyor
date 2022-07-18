@@ -56,7 +56,7 @@ public class CreditDTO {
         private AdditionalServices additionalServices = null;
         private CreditStatus creditStatus = null;
 
-        public Builder(){};
+        public Builder(){}
 
         public Builder amount(BigDecimal amount){
             this.amount = amount;

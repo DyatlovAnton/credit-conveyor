@@ -53,6 +53,7 @@ public class Client {
     @Column
     private String account;
 
+    public Client(){}
     public static class Builder{
         private String lastName = null;
         private String firstName = null;
@@ -116,10 +117,6 @@ public class Client {
             return new Client(this);
         }
     }
-    public Client(){};
-    public Client(Long id){
-        this.id = id;
-    };
     private Client(Builder builder){
         this.lastName = builder.lastName;
         this.firstName = builder.firstName;

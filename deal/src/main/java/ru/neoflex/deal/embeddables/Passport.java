@@ -12,19 +12,14 @@ public class Passport {
     private String number;
     private LocalDate issueDate;
     private String issueBranch;
+
     public Passport(){};
-    public Passport(String series, String number, LocalDate issueDate, String issueBranch){
-        this.series = series;
-        this.number = number;
-        this.issueDate = issueDate;
-        this.issueBranch = issueBranch;
-    }
     public static class Builder{
         private String series = null;
         private String number = null;
         private LocalDate issueDate = null;
         private String issueBranch = null;
-        public Builder(){};
+        public Builder(){}
         public Builder series(String series){
             this.series = series;
             return this;

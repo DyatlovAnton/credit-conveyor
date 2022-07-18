@@ -13,8 +13,7 @@ public class ApplicationStatusHistoryDTO {
     private LocalDateTime time;
     private ApplicationStatus changeType;
 
-    public ApplicationStatusHistoryDTO(){};
-
+    public ApplicationStatusHistoryDTO(){}
     public ApplicationStatusHistoryDTO(ApplicationStatus applicationStatus, LocalDateTime time, ApplicationStatus changeType){
         this.applicationStatus = applicationStatus;
         this.time = time;

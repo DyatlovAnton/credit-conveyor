@@ -16,6 +16,16 @@ public class PaymentScheduleElement {
     private BigDecimal debtPayment;
     private BigDecimal remainingDebt;
 
+    public PaymentScheduleElement(){}
+    public PaymentScheduleElement(Integer number, LocalDate date, BigDecimal totalPayment, BigDecimal interestPayment, BigDecimal debtPayment, BigDecimal remainingDebt) {
+        this.number = number;
+        this.date = date;
+        this.totalPayment = totalPayment;
+        this.interestPayment = interestPayment;
+        this.debtPayment = debtPayment;
+        this.remainingDebt = remainingDebt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

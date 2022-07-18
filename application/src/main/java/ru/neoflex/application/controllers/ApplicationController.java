@@ -9,7 +9,6 @@ import ru.neoflex.application.models.LoanApplicationRequestDTO;
 import ru.neoflex.application.models.LoanOfferDTO;
 import ru.neoflex.application.services.PrescoringService;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,8 +24,7 @@ public class ApplicationController {
     public List<LoanOfferDTO> getApplication(@RequestBody LoanApplicationRequestDTO data){
         boolean prescoringSuccess = prescoringService.prescore(data);
         if(prescoringSuccess){
-            List<LoanOfferDTO> offers = offersClient.getOffers(data);
-            return offers;
+            return offersClient.getOffers(data);
         }
         else{
             return null;

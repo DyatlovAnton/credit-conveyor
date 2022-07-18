@@ -16,6 +16,8 @@ public class EmploymentDTO {
     private Position position;
     private Integer workExperienceTotal;
     private Integer workExperienceCurrent;
+
+    public EmploymentDTO(){}
     public static class Builder{
         private EmploymentStatus employmentStatus = null;
         private String employer = null;
@@ -23,7 +25,7 @@ public class EmploymentDTO {
         private Position position = null;
         private Integer workExperienceTotal = null;
         private Integer workExperienceCurrent = null;
-        public Builder(){};
+        public Builder(){}
         public Builder withEmploymentStatus(EmploymentStatus employmentStatus){
             this.employmentStatus = employmentStatus;
             return this;
@@ -52,7 +54,6 @@ public class EmploymentDTO {
             return new EmploymentDTO(this);
         }
     }
-    public EmploymentDTO(){};
     private EmploymentDTO(Builder builder){
         this.employmentStatus = builder.employmentStatus;
         this.employerINN = builder.employer;

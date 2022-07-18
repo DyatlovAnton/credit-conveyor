@@ -14,7 +14,6 @@ import ru.neoflex.deal.repositories.ApplicationRepository;
 import ru.neoflex.deal.repositories.ClientRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

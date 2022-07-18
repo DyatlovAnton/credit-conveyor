@@ -49,7 +49,7 @@ public class Application {
     private List<ApplicationStatusHistoryDTO> statusHistory = new ArrayList<>();
 
     public static class Builder{
-        private Long id = null;
+        private final Long id = null;
         private Client client = null;
         private CreditDTO credit = null;
         private ApplicationStatus applicationStatus = null;

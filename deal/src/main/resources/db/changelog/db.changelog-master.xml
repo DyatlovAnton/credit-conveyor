@@ -1,0 +1,97 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="create-table-application_status_history" author="adiatlov">
+
+        <createTable tableName="clients">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="account" type="character varying(255)"/>
+            <column name="birth_date" type="date"/>
+            <column name="dependent_amount" type="integer"/>
+            <column name="email" type="character varying(255)"/>
+            <column name="employerinn" type="character varying(255)"/>
+            <column name="employment_status" type="integer"/>
+            <column name="position" type="integer"/>
+            <column name="salary" type="numeric(19,2)"/>
+            <column name="work_experience_current" type="integer"/>
+            <column name="work_experience_total" type="integer"/>
+            <column name="first_name" type="character varying(255)"/>
+            <column name="gender" type="integer"/>
+            <column name="last_name" type="character varying(255)"/>
+            <column name="marital_status" type="integer"/>
+            <column name="middle_name" type="character varying(255)"/>
+            <column name="issue_branch" type="character varying(255)"/>
+            <column name="issue_date" type="date"/>
+            <column name="number" type="character varying(255)"/>
+            <column name="series" type="character varying(255)"/>
+        </createTable>
+
+        <createTable tableName="credits">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="is_insurance_enabled" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_salary_client" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="numeric(19,2)"/>
+            <column name="credit_status" type="integer"/>
+            <column name="monthly_payment" type="numeric(19,2)"/>
+            <column name="psk" type="numeric(19,2)"/>
+            <column name="rate" type="numeric(19,2)"/>
+            <column name="term" type="integer"/>
+        </createTable>
+
+        <createTable tableName="applications">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="application_status" type="integer"/>
+            <column name="application_id" type="bigint"/>
+            <column name="is_insurance_enabled" type="boolean"/>
+            <column name="is_salary_client" type="boolean"/>
+            <column name="monthly_payment" type="numeric(19,2)"/>
+            <column name="rate" type="numeric(19,2)"/>
+            <column name="requested_amount" type="numeric(19,2)"/>
+            <column name="term" type="integer"/>
+            <column name="total_amount" type="numeric(19,2)"/>
+            <column name="creation_date" type="date"/>
+            <column name="ses_code" type="character varying(255)"/>
+            <column name="sign_date" type="date"/>
+            <column name="client_id" type="bigint">
+                <constraints foreignKeyName="client_id" references="clients(id)"/>
+            </column>
+            <column name="credit_id" type="bigint">
+                <constraints foreignKeyName="credit_id" references="credits(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="application_status_history">
+            <column name="application_id" type="bigint">
+                <constraints nullable="false" primaryKey="true" foreignKeyName="application_id" references="applications(id)"/>
+            </column>
+            <column name="application_status" type="integer"/>
+            <column name="change_type" type="integer"/>
+            <column name="time" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="creditdto_payment_schedule">
+            <column name="creditdto_id" type="bigint">
+                <constraints nullable="false" primaryKey="true" foreignKeyName="creditdto_id" references="credits(id)"/>
+            </column>
+            <column name="date" type="date"/>
+            <column name="debt_payment" type="numeric(19,2)"/>
+            <column name="interest_payment" type="numeric(19,2)"/>
+            <column name="number" type="integer"/>
+            <column name="remaining_debt" type="numeric(19,2)"/>
+            <column name="total_payment" type="numeric(19,2)"/>
+        </createTable>
+        
+    </changeSet>
+
+</databaseChangeLog>

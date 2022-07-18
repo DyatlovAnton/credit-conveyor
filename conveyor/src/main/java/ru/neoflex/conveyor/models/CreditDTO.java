@@ -3,17 +3,27 @@ package ru.neoflex.conveyor.models;
 import java.math.BigDecimal;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
+@Schema(description = "Сущность кредита")
 public class CreditDTO {
+    @Schema(description = "Сумма кредита")
     private final BigDecimal amount;
+    @Schema(description = "Срок кредита")
     private final Integer term;
+    @Schema(description = "Ежемесячный платеж")
     private final BigDecimal monthlyPayment;
+    @Schema(description = "Процентная ставка")
     private final BigDecimal rate;
+    @Schema(description = "Полная стоимость кредита")
     private final BigDecimal psk;
+    @Schema(description = "Включена ли страховка")
     private final Boolean isInsuranceEnabled;
+    @Schema(description = "Включен ли зарплатный клиент")
     private final Boolean isSalaryClient;
+    @Schema(description = "График платежей")
     private final List<PaymentScheduleElement> paymentSchedule;
 
     public CreditDTO(BigDecimal amount, Integer term, BigDecimal monthlyPayment, BigDecimal rate, BigDecimal psk, Boolean isInsuranceEnabled, Boolean isSalaryClient, List<PaymentScheduleElement> paymentSchedule) {

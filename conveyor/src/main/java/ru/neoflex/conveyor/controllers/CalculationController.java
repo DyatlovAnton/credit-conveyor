@@ -1,5 +1,8 @@
 package ru.neoflex.conveyor.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import ru.neoflex.conveyor.mappings.CreditDTOMapper;
 import ru.neoflex.conveyor.models.*;
@@ -12,6 +15,7 @@ import ru.neoflex.conveyor.services.CalculationService;
 
 @RestController
 @Slf4j
+@Tag(name="Calculation Controller", description = "Сalculates loan terms")
 public class CalculationController {
     private final CalculationService calculationService;
     private final CreditDTOMapper creditDTOMapper = new CreditDTOMapper();
@@ -21,7 +25,8 @@ public class CalculationController {
     }
 
     @PostMapping("/conveyor/calculation")
-    public ResponseEntity getCredit(@RequestBody ScoringDataDTO data) {
+    @Operation(description = "Сalculates loan terms")
+    public ResponseEntity getCredit(@RequestBody @Parameter(description = "Данные для скоринга") ScoringDataDTO data) {
         log.info("API /conveyor/calculation: Входные данные: " + data);
         BigDecimal rate = calculationService.score(data);
         if (rate != null) {

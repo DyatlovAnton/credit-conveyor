@@ -10,7 +10,7 @@ import ru.neoflex.deal.models.ScoringDataDTO;
 
 import java.util.List;
 
-@FeignClient(value="feign", url="http://localhost:8080/conveyor")
+@FeignClient(value = "feign", url = "http://localhost:8080/conveyor")
 public interface OffersClient {
     @RequestMapping(method = RequestMethod.POST, value = "/offers", consumes = "application/json")
     List<LoanOfferDTO> getOffers(LoanApplicationRequestDTO data);

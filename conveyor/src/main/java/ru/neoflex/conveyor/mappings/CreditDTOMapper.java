@@ -17,7 +17,8 @@ public class CreditDTOMapper {
     MathContext mc = MathContext.DECIMAL128;
     RoundingMode rm = RoundingMode.HALF_UP;
 
-    public CreditDTOMapper(){}
+    public CreditDTOMapper() {
+    }
 
     public CreditDTO scoringDataDTOtoCreditDTOMapping(ScoringDataDTO data, BigDecimal rate) {
         BigDecimal amount = data.getAmount();

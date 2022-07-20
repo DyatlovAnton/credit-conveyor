@@ -16,7 +16,9 @@ public class PaymentScheduleElement {
     private BigDecimal debtPayment;
     private BigDecimal remainingDebt;
 
-    public PaymentScheduleElement(){}
+    public PaymentScheduleElement() {
+    }
+
     public PaymentScheduleElement(Integer number, LocalDate date, BigDecimal totalPayment, BigDecimal interestPayment, BigDecimal debtPayment, BigDecimal remainingDebt) {
         this.number = number;
         this.date = date;
@@ -24,6 +26,12 @@ public class PaymentScheduleElement {
         this.interestPayment = interestPayment;
         this.debtPayment = debtPayment;
         this.remainingDebt = remainingDebt;
+    }
+
+    @Override
+    public String toString() {
+        return "Number: " + number + ", Date: " + date + ", Total payment: " + totalPayment + ", Interest payment: " + interestPayment + ", Debt payment: " +
+                debtPayment + ", Remaining debt: " + remainingDebt;
     }
 
     @Override

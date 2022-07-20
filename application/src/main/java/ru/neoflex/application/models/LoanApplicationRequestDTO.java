@@ -3,18 +3,29 @@ package ru.neoflex.application.models;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
+@Schema(description = "Заявка на получение кредита")
 public class LoanApplicationRequestDTO {
+    @Schema(description = "Сумма")
     private final BigDecimal amount;
+    @Schema(description = "Срок")
     private final Integer term;
+    @Schema(description = "Имя")
     private final String firstName;
+    @Schema(description = "Фамилия")
     private final String lastName;
+    @Schema(description = "Отчество")
     private final String middleName;
+    @Schema(description = "Электронная почта")
     private final String email;
+    @Schema(description = "Дата рождения")
     private final LocalDate birthdate;
+    @Schema(description = "Серия паспорта")
     private final String passportSeries;
+    @Schema(description = "Номер паспорта")
     private final String passportNumber;
 
     public LoanApplicationRequestDTO(BigDecimal amount, Integer term, String firstName, String lastName, String middleName, String email, LocalDate birthdate, String passportSeries, String passportNumber) {

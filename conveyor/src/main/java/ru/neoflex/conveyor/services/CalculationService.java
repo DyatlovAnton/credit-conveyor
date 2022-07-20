@@ -21,7 +21,7 @@ public class CalculationService {
 
     public BigDecimal score(ScoringDataDTO data) {
         BigDecimal rate = baseRate;
-        if(!Optional.of(data.getEmployment().getEmploymentStatus()).isPresent()){
+        if (!Optional.of(data.getEmployment().getEmploymentStatus()).isPresent()) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле employment.employmentStatus");
             return null;
         }
@@ -46,10 +46,10 @@ public class CalculationService {
                 rate = null;
                 break;
         }
-        if(rate==null){
+        if (rate == null) {
             return null;
         }
-        if(!Optional.of(data.getEmployment().getPosition()).isPresent()){
+        if (!Optional.of(data.getEmployment().getPosition()).isPresent()) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле employment.position");
             return null;
         }
@@ -71,20 +71,19 @@ public class CalculationService {
                 rate = null;
                 break;
         }
-        if(rate==null){
+        if (rate == null) {
             return null;
         }
-        try{
+        try {
             if (data.getAmount().compareTo(data.getEmployment().getSalary().multiply(BigDecimal.valueOf(20))) > 0) {
                 log.info("API /conveyor/calculation: Запрашиваемая сумма больше 20 зарплат. Скоринг не пройден");
                 return null;
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле amount");
             return null;
         }
-        if(!Optional.of(data.getMaritalStatus()).isPresent()){
+        if (!Optional.of(data.getMaritalStatus()).isPresent()) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле maritalStatus");
             return null;
         }
@@ -106,31 +105,29 @@ public class CalculationService {
                 rate = null;
                 break;
         }
-        if(rate == null){
+        if (rate == null) {
             return null;
         }
-        try{
+        try {
             if (data.getDependentAmount() > 1) {
                 rate = rate.add(BigDecimal.valueOf(0.001));
                 log.info("API /conveyor/calculation: Число иждевенцев больше 1. Ставка увеличина на 0.1%");
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле DependentAmount");
             return null;
         }
         int age = Period.between(data.getBirthdate(), LocalDate.now()).getYears();
-        try{
+        try {
             if (age < 20 || age > 60) {
                 log.info("API /conveyor/calculation: Возраст меньше 20 или больше 60. Скоринг не пройден");
                 return null;
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле Birthday");
             return null;
         }
-        if(!Optional.of(data.getGender()).isPresent()){
+        if (!Optional.of(data.getGender()).isPresent()) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле gender");
             return null;
         }
@@ -157,36 +154,33 @@ public class CalculationService {
                 rate = null;
                 break;
         }
-        if(rate == null){
+        if (rate == null) {
             return null;
         }
-        try{
+        try {
             if (data.getEmployment().getWorkExperienceTotal() < 12 && data.getEmployment().getWorkExperienceCurrent() < 3) {
                 log.info("API /conveyor/calculation: общий рабочий стаж меньше 12 или текущий рабочий стаж меньше 3. Скоринг не пройден");
                 return null;
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле Employment.WorkExperienceTotal");
             return null;
         }
-        try{
+        try {
             if (data.getIsInsuranceEnabled()) {
                 rate = rate.subtract(BigDecimal.valueOf(0.03));
                 log.info("API /conveyor/calculation: Страхование. Ставка уменьшина на 3%");
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле IsInsuranceEnabled");
             return null;
         }
-        try{
+        try {
             if (data.getIsSalaryClient()) {
                 rate = rate.subtract(BigDecimal.valueOf(0.01));
                 log.info("API /conveyor/calculation: Зарплатный клиент. Ставка уменьшина на 1%");
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             log.error("API /conveyor/calculation: Неверные входные данные в поле IsSalaryClient");
             return null;
         }

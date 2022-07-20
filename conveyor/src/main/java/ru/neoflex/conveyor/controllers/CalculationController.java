@@ -15,7 +15,7 @@ import ru.neoflex.conveyor.services.CalculationService;
 
 @RestController
 @Slf4j
-@Tag(name="Calculation Controller", description = "Сalculates loan terms")
+@Tag(name = "Calculation Controller", description = "Сalculates loan terms")
 public class CalculationController {
     private final CalculationService calculationService;
     private final CreditDTOMapper creditDTOMapper = new CreditDTOMapper();

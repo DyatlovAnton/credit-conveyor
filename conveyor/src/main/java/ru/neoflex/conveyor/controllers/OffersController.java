@@ -12,7 +12,7 @@ import ru.neoflex.conveyor.services.OffersService;
 
 @RestController
 @Slf4j
-@Tag(name="Offers Controller", description = "Pre-scoring and issuance of four loan offers")
+@Tag(name = "Offers Controller", description = "Pre-scoring and issuance of four loan offers")
 public class OffersController {
     private final OffersService offersService;
 

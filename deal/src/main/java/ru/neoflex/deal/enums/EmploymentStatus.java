@@ -6,19 +6,25 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum EmploymentStatus {
     UNEMPLOYED("unemployed"), SELF_EMPLOYED("self_employed"), EMPLOYED("employed"), BUSINESS_OWNER("business owner");
     private final String string;
+
     @JsonValue
-    public String getString(){
+    public String getString() {
         return string;
     }
-    EmploymentStatus(String string){
+
+    EmploymentStatus(String string) {
         this.string = string;
     }
+
     @Override
-    public String toString(){ return this.string;}
+    public String toString() {
+        return this.string;
+    }
+
     @JsonCreator
-    public static EmploymentStatus fromString(String text){
-        for(EmploymentStatus employmentStatus : EmploymentStatus.values()){
-            if(employmentStatus.toString().equals(text)){
+    public static EmploymentStatus fromString(String text) {
+        for (EmploymentStatus employmentStatus : EmploymentStatus.values()) {
+            if (employmentStatus.toString().equals(text)) {
                 return employmentStatus;
             }
         }

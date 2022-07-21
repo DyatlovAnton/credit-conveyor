@@ -29,6 +29,16 @@ public class LoanOfferDTO {
     @Schema(description = "Включен ли зарплатный клиент")
     private Boolean isSalaryClient;
 
+    public LoanOfferDTO(Long applicationId, BigDecimal requestedAmount, BigDecimal totalAmount, Integer term, BigDecimal monthlyPayment, BigDecimal rate, Boolean isInsuranceEnabled, Boolean isSalaryClient) {
+        this.applicationId = applicationId;
+        this.requestedAmount = requestedAmount;
+        this.totalAmount = totalAmount;
+        this.term = term;
+        this.monthlyPayment = monthlyPayment;
+        this.rate = rate;
+        this.isInsuranceEnabled = isInsuranceEnabled;
+        this.isSalaryClient = isSalaryClient;
+    }
 
     @Override
     public String toString() {
@@ -41,6 +51,6 @@ public class LoanOfferDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LoanOfferDTO that = (LoanOfferDTO) o;
-        return applicationId.equals(that.applicationId) && requestedAmount.equals(that.requestedAmount) && totalAmount.equals(that.totalAmount) && term.equals(that.term) && monthlyPayment.equals(that.monthlyPayment) && rate.equals(that.rate) && isInsuranceEnabled.equals(that.isInsuranceEnabled) && isSalaryClient.equals(that.isSalaryClient);
+        return requestedAmount.equals(that.requestedAmount) && totalAmount.equals(that.totalAmount) && term.equals(that.term) && monthlyPayment.equals(that.monthlyPayment) && rate.equals(that.rate) && isInsuranceEnabled.equals(that.isInsuranceEnabled) && isSalaryClient.equals(that.isSalaryClient);
     }
 }

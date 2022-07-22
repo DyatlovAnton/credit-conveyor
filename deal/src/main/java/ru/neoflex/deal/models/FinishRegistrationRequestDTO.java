@@ -28,6 +28,16 @@ public class FinishRegistrationRequestDTO {
     @Schema(description = "Аккаунт")
     private String account;
 
+    public FinishRegistrationRequestDTO(Gender gender, MaritalStatus maritalStatus, Integer dependentAmount, LocalDate passportIssueDate, String passportIssueBranch, EmploymentDTO employment, String account) {
+        this.gender = gender;
+        this.maritalStatus = maritalStatus;
+        this.dependentAmount = dependentAmount;
+        this.passportIssueDate = passportIssueDate;
+        this.passportIssueBranch = passportIssueBranch;
+        this.employment = employment;
+        this.account = account;
+    }
+
     @Override
     public String toString() {
         return "Gender: " + gender + ", Marital status: " + maritalStatus + ", Dependent amount: " + dependentAmount + ", Passport issue date: " +

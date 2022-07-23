@@ -32,4 +32,5 @@ public enum ApplicationStatus {
         }
         throw new IllegalArgumentException();
     }
+
 }

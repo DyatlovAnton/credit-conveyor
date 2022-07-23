@@ -27,7 +27,16 @@ public class LoanOfferDTO {
     @Schema(description = "Включен ли зарплатный клиент")
     private Boolean isSalaryClient;
 
-
+    public LoanOfferDTO(Long applicationId, BigDecimal requestedAmount, BigDecimal totalAmount, Integer term, BigDecimal monthlyPayment, BigDecimal rate, Boolean isInsuranceEnabled, Boolean isSalaryClient) {
+        this.applicationId = applicationId;
+        this.requestedAmount = requestedAmount;
+        this.totalAmount = totalAmount;
+        this.term = term;
+        this.monthlyPayment = monthlyPayment;
+        this.rate = rate;
+        this.isInsuranceEnabled = isInsuranceEnabled;
+        this.isSalaryClient = isSalaryClient;
+    }
     @Override
     public String toString() {
         return "Application ID: " + applicationId + ", Requested amount: " + requestedAmount + ", Total amount: " + totalAmount + ", Term: " + term + ", Monthly payment: " + monthlyPayment +

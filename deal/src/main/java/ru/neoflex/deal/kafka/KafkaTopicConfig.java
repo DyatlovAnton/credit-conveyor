@@ -1,4 +1,4 @@
-package ru.neoflex.deal.kafka.topics;
+package ru.neoflex.deal.kafka;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class SendSesConfig {
+public class KafkaTopicConfig {
     @Value(value = "${kafka.bootstrapAddress}")
     private String bootstrapAddress;
 
@@ -24,6 +24,26 @@ public class SendSesConfig {
 
     @Bean
     public NewTopic topic1() {
+        return new NewTopic("application-denied", 1, (short) 1);
+    }
+    @Bean
+    public NewTopic topic2() {
+        return new NewTopic("create-documents", 1, (short) 1);
+    }
+    @Bean
+    public NewTopic topic3() {
+        return new NewTopic("credit-issued", 1, (short) 1);
+    }
+    @Bean
+    public NewTopic topic4() {
+        return new NewTopic("finish-registration", 1, (short) 1);
+    }
+    @Bean
+    public NewTopic topic5() {
+        return new NewTopic("send-documents", 1, (short) 1);
+    }
+    @Bean
+    public NewTopic topic6() {
         return new NewTopic("send-ses", 1, (short) 1);
     }
 }

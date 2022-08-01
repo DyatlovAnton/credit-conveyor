@@ -16,10 +16,12 @@ import java.util.List;
 @Service
 public class OfferService {
     private final ApplicationRepository applicationRepository;
+    private final SendService sendService;
 
     @Autowired
-    public OfferService(ApplicationRepository applicationRepository) {
+    public OfferService(ApplicationRepository applicationRepository, SendService sendService) {
         this.applicationRepository = applicationRepository;
+        this.sendService = sendService;
     }
 
     public void updateApplication(LoanOfferDTO data) throws IllegalArgumentException, UnsupportedOperationException {
@@ -41,5 +43,11 @@ public class OfferService {
         }
         applicationRepository.save(application);
         log.info("API /deal/offer: Заявка обновлена в базе данных");
+        try {
+            sendService.createDocuments(application.getId());
+            log.info("API /deal/offer: Отправлено сообщение на создание документов");
+        } catch (Exception exception) {
+            log.error("API /deal/offer: Не удалось отправить сообщение на создание документов");
+        }
     }
 }

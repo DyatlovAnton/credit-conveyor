@@ -24,11 +24,11 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic topic1() {
-        return new NewTopic("application-denied", 1, (short) 1);
+        return new NewTopic("create-documents", 1, (short) 1);
     }
     @Bean
     public NewTopic topic2() {
-        return new NewTopic("create-documents", 1, (short) 1);
+        return new NewTopic("application-denied", 1, (short) 1);
     }
     @Bean
     public NewTopic topic3() {

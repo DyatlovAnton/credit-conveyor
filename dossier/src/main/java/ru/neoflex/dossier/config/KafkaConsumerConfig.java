@@ -52,34 +52,4 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
-    @Bean
-    public ConsumerFactory<String, EmailMessage> emailMessageConsumerFactory() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(
-                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                bootstrapAddress);
-        props.put(
-                ConsumerConfig.GROUP_ID_CONFIG,
-                kafkaGroupId);
-        props.put(
-                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
-        props.put(
-                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
-        return new DefaultKafkaConsumerFactory<>(
-                props,
-                new StringDeserializer(),
-                new JsonDeserializer<>(EmailMessage.class));
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, EmailMessage>
-    emailMessageKafkaListenerContainerFactory() {
-
-        ConcurrentKafkaListenerContainerFactory<String, EmailMessage> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(emailMessageConsumerFactory());
-        return factory;
-    }
 }

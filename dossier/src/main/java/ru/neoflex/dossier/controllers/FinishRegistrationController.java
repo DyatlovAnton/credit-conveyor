@@ -1,6 +1,7 @@
 package ru.neoflex.dossier.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,28 +26,16 @@ public class FinishRegistrationController {
 
     @KafkaListener(
             topics = "finish-registration",
-            containerFactory = "emailMessageKafkaListenerContainerFactory")
-    public void emailMessageListener(EmailMessage message) throws MessagingException {
-        try {
-            File myObj = new File("filename.txt");
-            if (myObj.createNewFile()) {
-                log.info("File created: " + myObj.getName());
-            } else {
-                log.info("File already exists.");
-            }
-        } catch (IOException e) {
-            log.error("An error occurred.");
-            e.printStackTrace();
-        }
-        try {
-            FileWriter myWriter = new FileWriter("filename.txt");
-            myWriter.write("Application ID: "+message.getApplicationId()+"\nAction: "+message.getTheme().toString();
-            myWriter.close();
-            log.info("Successfully wrote to the file.");
-        } catch (IOException e) {
-            log.error("An error occurred.");
-            e.printStackTrace();
-        }
-        emailService.sendMessageWithAttachment(message.getAddress(),"Finish registration", "Finish registration","filename.txt");
+            groupId = "ConsumerGroup0")
+    public void emailMessageListener(String message) throws MessagingException {
+        JSONObject jsonObject = new JSONObject(message);
+        String address = jsonObject.get("address").toString();
+        String theme = jsonObject.get("theme").toString();
+        long applicationId = Long.parseLong(jsonObject.get("applicationId").toString());
+        log.info("address: " + address);
+        log.info("theme: " + theme);
+        log.info("applicationId: " + applicationId);
+        log.info("Test Send Mail");
+        emailService.sendSimpleMessage("antoshencka@gmail.com","Test","Test");
     }
 }

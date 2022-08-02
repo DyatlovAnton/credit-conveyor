@@ -1,4 +1,4 @@
-package ru.neoflex.application.swagger;
+package ru.neoflex.gateway.swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -13,7 +13,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Application")
+                                .title("Gateway")
                                 .version("1.0.0")
                                 .contact(
                                         new Contact()

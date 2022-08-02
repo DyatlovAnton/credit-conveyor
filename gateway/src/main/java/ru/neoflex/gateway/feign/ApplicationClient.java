@@ -10,7 +10,7 @@ import ru.neoflex.gateway.models.input.LoanApplicationRequestDTO;
 
 import java.util.List;
 
-@FeignClient(value = "feign2", url = "http://localhost:8082")
+@FeignClient(value = "feign2", url = "${application.url}")
 public interface ApplicationClient {
     @RequestMapping(method = RequestMethod.POST, value = "/application", consumes = "application/json")
     List<LoanOfferDTO> getLoanOfferDTO(@RequestBody LoanApplicationRequestDTO data);

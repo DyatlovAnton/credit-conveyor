@@ -1,0 +1,132 @@
+version: '2'
+services:
+
+  conveyor:
+    image: 'conveyor:latest'
+    build:
+      context: ./conveyor
+    container_name: conveyor
+    ports:
+      - 8080:8080
+    depends_on:
+      - zookeeper
+      - kafka
+      - postgres
+    environment:
+      - SERVER_PORT=8080
+      - RATE=0.152
+      - INSURANCE=0.015
+        
+  deal:
+    image: 'deal:latest'
+    build:
+      context: ./deal
+    container_name: deal
+    ports:
+      - 8081:8081
+    depends_on:
+      - postgres
+      - zookeeper
+      - kafka
+      - conveyor
+    environment:
+      - SERVER_PORT = 8081
+      - SPRING_MAIN_BANNER-MODE=off
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK=ERROR
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+      - SPRING_DATASOURCE_INITIALIZATION-MODE=always
+      - SPRING_DATASOURCE_PLATFORM=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_LIQUIBASE_CHANGE-LOG=classpath:db/changelog/db.changelog-master.xml
+      - KAFKA_BOOTSTRAPADDRESS=kafka:29092
+      - KAFKA_BOOT_SERVER=kafka:29092
+      - CONVEYOR_URL=http://conveyor:8080/conveyor
+        
+  application:
+    image: 'application:latest'
+    build:
+      context: ./application
+    container_name: application
+    ports:
+      - 8082:8082
+    depends_on:
+      - postgres
+      - zookeeper
+      - kafka
+    environment:
+      - SERVER_PORT=8082
+      - DEAL_URL=http://deal:8081/deal
+      
+  dossier:
+    image: 'dossier:latest'
+    build:
+      context: ./dossier
+    container_name: dossier
+    ports:
+      - 8083:8083
+    depends_on:
+      - postgres
+      - zookeeper
+      - kafka
+    environment:
+      - SERVER_PORT=8083
+      - KAFKA_BOOTSTRAPADDRESS=kafka:29092
+      - mail.transport.protocol = smtps
+      - MAIL_TRANSPORT_PROTOCOL=smtps
+      - MAIL_SMTP_HOST=smtp.yandex.ru
+      - MAIL_SMTP_PORT=465
+      - MAIL_SMTP_USER=adiatlov.neoflex
+      - MAIL_SMTP_SSL_ENABLE=true
+      - MAIL_SMTP_AUTH=true
+      - MAIL_DEBUG=true
+      
+  gateway:
+    image: 'gateway:latest'
+    build:
+      context: ./gateway
+    container_name: gateway
+    ports:
+      - 8084:8084
+    depends_on:
+      - postgres
+      - zookeeper
+      - kafka
+    environment:
+      - SERVER_PORT=8084
+      - DEAL_URL=http://deal:8081/deal
+      - APPLICATION_URL=http://application:8082
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  postgres:
+        image: 'postgres:13'
+        container_name: postgres
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=postgres

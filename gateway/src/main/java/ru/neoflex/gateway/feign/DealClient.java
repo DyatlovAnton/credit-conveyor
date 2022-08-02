@@ -12,7 +12,7 @@ import ru.neoflex.gateway.models.input.LoanApplicationRequestDTO;
 
 import java.util.List;
 
-@FeignClient(value = "feign1", url = "http://localhost:8081/deal")
+@FeignClient(value = "feign1", url = "${deal.url}")
 public interface DealClient {
     @RequestMapping(method = RequestMethod.POST, value = "/document/{applicationId}/sign", consumes = "application/json")
     void sign(@PathVariable(value = "applicationId") Long applicationId);

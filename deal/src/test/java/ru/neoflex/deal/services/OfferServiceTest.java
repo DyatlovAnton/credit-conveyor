@@ -21,9 +21,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class OfferServiceTest {
     @Mock
     ApplicationRepository applicationRepository;
+    @Mock
+    SendService sendService;
     @Test
     void updateApplication() {
-        OfferService service = new OfferService(applicationRepository);
+        OfferService service = new OfferService(applicationRepository,sendService);
         LoanOfferDTO data = new LoanOfferDTO(1L, BigDecimal.valueOf(100000L), BigDecimal.valueOf(113668L), 36, BigDecimal.valueOf(3157.44), BigDecimal.valueOf(0.085), true, true);
         Long applicationId = 1L;
 
